@@ -1,0 +1,35 @@
+{
+  "variables": {
+    "access_key": "{{env `AWSCLOUD_ACCESS_KEY`}}",
+    "region": "{{env `AWSCLOUD_REGION`}}",
+    "secret_key": "{{env `AWSCLOUD_SECRET_KEY`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `access_key`}}",
+      "secret_key": "{{user `secret_key`}}",
+      "region":"{{user `region`}}",
+	  "ami_name": "elk-packer-aws-demo-{{timestamp}}",
+      
+	  "source_ami_filter": {
+              "filters": {
+              "virtualization-type": "hvm",
+              "name": "ubuntu18_4_Java8_npm",
+              "root-device-type": "ebs"
+              },
+              "owners": ["694518116222"],
+              "most_recent": true
+      },
+      "ssh_username": "ubuntu",
+      "instance_type": "t2.micro"
+      
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "ubuntuelk.sh"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+AWS_REGION="us-east-2"
+CIDR_BLOCK="192.168.16.0/21"

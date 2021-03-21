@@ -1,0 +1,6 @@
+KEYPATH="..\\..\\secret\\"
+KEY_NAME="CourseEKS-BNS-01-dev"
+PROJECTNAME="CourseEKS-BNS"
+INSTANCE_TYPE="t2.micro" 
+BACKENDNAME="s3backend-course-eks"
+CIDR_BLOCK="192.168.16.0/21"

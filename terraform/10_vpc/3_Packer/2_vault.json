@@ -1,0 +1,53 @@
+{
+  "variables": {
+    "access_key": "{{env `AWSCLOUD_ACCESS_KEY`}}",
+    "region": "{{env `AWSCLOUD_REGION`}}",
+    "secret_key": "{{env `AWSCLOUD_SECRET_KEY`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `access_key`}}",
+      "secret_key": "{{user `secret_key`}}",
+      "region":"{{user `region`}}",
+	  "ami_name": "vault-aws-{{timestamp}}",
+      
+	  "source_ami_filter": {
+              "filters": {
+                    "virtualization-type": "hvm",
+                    "architecture": "x86_64",
+                    "name": "ubuntu/images/hvm-ssd/*-18.04-amd64-*",
+                    "block-device-mapping.volume-type": "gp2",
+                    "root-device-type": "ebs"
+              },
+              
+			  "owners": [
+                    "099720109477"
+                ],
+              "most_recent": true
+      },
+      "ssh_username": "ubuntu",
+      "instance_type": "t2.micro"
+      
+    }
+  ],
+  "provisioners": 
+   [
+        {
+            "type": "file",
+            "source": "welcomefile",
+            "destination": "/home/ubuntu/"
+        },
+        {
+            "type": "shell",
+            "inline":[
+                "ls -al /home/ubuntu",
+                "cat /home/ubuntu/welcomefile"
+            ]
+        },
+        {
+            "type": "shell",
+            "script": "ins_ubuvault.sh"
+        }
+    ]
+}
